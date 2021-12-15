@@ -1,135 +1,96 @@
-# ElkStackProject-Cyberbootcamp
-ELK Stack Project
-![The Well App](thumbnail.png)
+## Automated ELK Stack Deployment
 
-<div align='center'>
-  
-<a href='https://github.com/chroline/well_app/releases'>
-  
-<img src='https://img.shields.io/github/v/release/chroline/well_app?color=%23FDD835&label=version&style=for-the-badge'>
-  
-</a>
-  
-<a href='https://github.com/chroline/well_app/blob/main/LICENSE'>
-  
-<img src='https://img.shields.io/github/license/chroline/well_app?style=for-the-badge'>
-  
-</a>
-  
-</div>
+The files in this repository were used to configure the network depicted below.
 
-<br />
+![Untitled-1](https://user-images.githubusercontent.com/82488650/146113230-bbaafbb6-c125-49cd-b433-87a43100999e.png)
 
----
 
-<div align='center'>
-  
-### Quick Links
-  
-<a href='https://projects.colegaw.in/well-app?utm_source=GitHub&utm_medium=readme&utm_campaign=well_app_readme'>
-  
-<img src='https://img.shields.io/badge/HOMEPAGE-gray?style=for-the-badge'>
-  
-</a>
-  
-<a href='https://projects.colegaw.in/well-app/research?utm_source=GitHub&utm_medium=readme&utm_campaign=well_app_readme'>
-  
-<img src='https://img.shields.io/badge/RESEARCH-blue?style=for-the-badge'>
-  
-</a>
-  
-<a href='https://projects.colegaw.in/well-app/case-study?utm_source=GitHub&utm_medium=readme&utm_campaign=well_app_readme'>
-  
-<img src='https://img.shields.io/badge/CASE STUDY-green?style=for-the-badge'>
-  
-</a>
-  
-<br />
-  
-<br />
-  
-<a href="https://www.producthunt.com/posts/well-reboot-your-mindset?utm_source=badge-review&utm_medium=badge&utm_souce=badge-well-reboot-your-mindset#discussion-body" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/review.svg?post_id=322651&theme=light" alt="Well: Reboot Your Mindset - Improve your productivity and happiness in just 21 days. | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
-  
-</div>
+These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above.
+Alternatively, select portions of the alpha.yml file may be used to install only certain pieces of it, such as Filebeat.
 
----
+  - Roles/alpha.yml
 
-### The Well app is available for download! 🥳 🚀
+This document contains the following details:
+- Description of the Topologu
+- Access Policies
+- ELK Configuration
+  - Beats in Use
+  - Machines Being Monitored
+- How to Use the Ansible Build
 
-- iOS/macOS: Search for "well: reboot your mindset" on the [iOS app store](https://apps.apple.com/us/app/well-reboot-your-mindset/id1573357406).
-- Web: Visit [https://well-app.netlify.app](https://well-app.netlify.app). Install as a PWA for native-like functionality!
-- Android: coming soon 👀
 
----
+### Description of the Topology
 
-<br />
+The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
 
-<div align="center">
+Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the logs and system metrics.
 
-**[PROJECT PHILOSOPHY](https://github.com/chroline/well_app#-project-philosophy) • 
-[WIKI](https://github.com/chroline/well_app#-wiki) • 
-[TECH STACK](https://github.com/chroline/well_app#-tech-stack) • 
-[CONTRIBUTING](https://github.com/chroline/well_app#%EF%B8%8F-contributing) • 
-[SPREAD THE WORD](https://github.com/chroline/well_app#-spread-the-word) • 
-[LICENSE](https://github.com/chroline/well_app#%EF%B8%8F-license)**
+The configuration details of each machine may be found below.
 
-</div>
+| Name       | Function  | IP Address | Operating System |
+|------------|-----------|------------|------------------|
+| Jump box   | Gateway   | 10.0.0.4   | Linux            |
+| Web-1      | Webserver | 10.0.0.7   | Linux            |
+| Web-2      | Webserver | 10.0.0.8   | Linux            |
+| ELK Server | ELKserver | 10.1.0.4   | Linux            |
 
-<br />
+### Access Policies
 
-# 🧐 Project philosophy
+The machines on the internal network are not exposed to the public Internet. 
 
-> The Well app is a mental health and mindfulness app built on top of the science of positive psychology. The Well app is more than just another meditation or journaling app; it encourages you to enhance and reflect on your day with structured, guided activities.
-> 
-> There are 5 daily tasks that the Well app asks you to complete each day: record 3 gratitudes, write a journal entry, perform 3 acts of kindness, exercise for 20 minutes, and meditate for 15 minutes.
+Only the Jump box machine can accept connections from the Internet. Access to this machine is only allowed from home network IP.
 
-**Read more about the Well app on [the project homepage](https://projects.colegaw.in/well-app?utm_source=GitHub&utm_medium=readme&utm_campaign=well_app_readme).**
+Machines within the network can only be accessed by home network IP
 
-# 📒 Wiki
+A summary of the access policies in place can be found in the table below.
 
-This project repository has [a great wiki](https://github.com/chroline/well_app/wiki) (currently WIP) that you should consider reading! It goes into detail about the project from a more technical aspect. If you are interested in learning more about the app itself, go ahead and check it out!
+| Name       | Access | IP Address                 |
+|------------|--------|----------------------------|
+| Jump box   | No     | Home network IP            |
+| Web-1      | No     | 10.0.0.4 & Home Network IP |
+| DVWA-VM2   | No     | 10.0.0.4 & Home Network IP |
+| ELK Server | No     | 10.0.0.4 & Home Network IP |
 
-# 👨‍💻 Tech stack
+### Elk Configuration
 
-Here's a brief high-level overview of the tech stack the Well app uses:
+Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because it minimizes the potenital for error and increases potential to save time. 
+Roles were used to increase utility and functionality. The setup includes the initial alpha.yml file that refrences each playbook's install files titled alpha.yml. This main file saves time and effort because it can dictate which playbooks are in use; streamlining any future edits of the machines. 
 
-- This project uses the [Flutter app development framework](https://flutter.dev/). Flutter is a cross-platform hybrid app development platform which allows us to use a single codebase for apps on mobile, desktop, and the web.
-- For persistent storage (database), the app uses the [Hive](https://hivedb.dev/) package which allows the app to create a custom storage schema and save it to a local database.
-- To send local push notifications, the app uses the [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications) package which supports Android, iOS, and macOS.
-  - 🚨 Currently, notifications aren't working on macOS. This is a known issue that we are working to resolve!
-- The app uses the font ["Work Sans"](https://fonts.google.com/specimen/Work+Sans) as its main font, and the design of the app adheres to the material design guidelines.
 
-For more information on the technologies that power the Well app, check out the [Tech Stack](https://github.com/chroline/well_app/wiki/Tech-Stack) page on our wiki.
+The playbook implements the following tasks:
+- Configure Webservers
+- Install ELK Server
+- Install Filebeat
+- Install Metricbeat
 
-# ✍️ Contributing
+The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-Interested in contributing to the Well app project? Thanks so much for your interest! We are always looking for improvements to the project and contributions from open-source developers are greatly appreciated.
 
-If you have a contribution in mind, please check out our [Contribution Guide](https://github.com/chroline/well_app/wiki/Contribution-Guide) for information on how to do so. Also, make sure you read our [Code of Conduct](https://github.com/chroline/well_app/wiki/Code-of-Conduct) to foster an encouraging sense of community.
 
-# 🌟 Spread the word!
+### Target Machines & Beats
+This ELK server is configured to monitor the following machines:
+- 10.1.0.4
+- 10.0.2.9
 
-If you want to say thank you and/or support active development of the Well app:
+We have installed the following Beats on these machines:
+- Filebeat
+- Metricbeat
 
-- Add a GitHub Star to the project!
-- Tweet about the project on your Twitter!
-  - Tag [@colegawin_](https://twitter.com/colegawin_) and/or `#thewellapp`
-- Leave us a review [on the iOS App Store](https://apps.apple.com/us/app/well-reboot-your-mindset/id1573357406)!
+These Beats allow us to collect the following information from each machine:
+- Filebeat forwards and centralizes log data. This information is forwarded to Elasticsearch/Logstash thus providing a GUI to simplify monitoring. 
+- Metricbeat provides a way to provide information such as metrics from the operating system and from services running on a server. Metricbeat collects this data and sends it to Elasticsearch/Logstash (user specified)
 
-Thanks so much for your interest in growing the reach of the Well app!
+### Using the Playbook
+In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
-_**PS:** consider sponsoring me ([Cole Gawin](https://colegaw.in)) to continue the development of this project on [BuyMeACoffee](https://buymeacoffee.com/colegawin) :)_
+SSH into the control node and follow the steps below:
+- Copy the roles folder to /etc/ansible/roles.
+- Update the hosts file to include webserver IP's and ELKServer IP
+- Run the playbook, and navigate to HTTP://<ELKServer_Public_IP>:5601 to check that the installation worked as expected.
 
-# ⚠️ License
-
-The Well app is free and open-source software licensed under the GNU General Public License v3.0. All designs were created by [Cole Gawin](https://github.com/chroline) and distributed under Creative Commons license (CC BY-SA 4.0 International).
-
-<br />
-
----
-
-<br />
-
-# 💛
-
-Reminder that *you are great, you are enough, and your presence is valued.* If you are struggling with your mental health, please reach out to someone you love and consult a professional. [There are many resources for you to get help in a time of need.](https://www.nimh.nih.gov/health/find-help)
+* Copy the roles folder (linked above) and files to /etc/ansible/roles
+* Update the /etc/ansible/hosts file to include the webservers IP's and ELKServer IP
+* Update each configuration file with ELKServer IP
+    * Kibana - uncomment and replace localhost with local IP for ELK Server
+    * Elasticsearch - uncomment and replace localhost with local IP for ELK Server
+    
