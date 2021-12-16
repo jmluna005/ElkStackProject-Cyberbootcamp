@@ -8,10 +8,10 @@ The files in this repository were used to configure the network depicted below.
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above.
 Alternatively, select portions of the alpha.yml file may be used to install only certain pieces of it, such as Filebeat.
 
-  - Roles/alpha.yml
+  - ansible-playbook filebeat-config.yml
 
 This document contains the following details:
-- Description of the Topologu
+- Description of the Topology
 - Access Policies
 - ELK Configuration
   - Beats in Use
@@ -48,13 +48,13 @@ A summary of the access policies in place can be found in the table below.
 |------------|--------|----------------------------|
 | Jump box   | No     | Home network IP            |
 | Web-1      | No     | 10.0.0.4 & Home Network IP |
-| DVWA-VM2   | No     | 10.0.0.4 & Home Network IP |
+| Web-2      | No     | 10.0.0.4 & Home Network IP |
 | ELK Server | No     | 10.0.0.4 & Home Network IP |
 
 ### Elk Configuration
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because it minimizes the potenital for error and increases potential to save time. 
-Roles were used to increase utility and functionality. The setup includes the initial alpha.yml file that refrences each playbook's install files titled alpha.yml. This main file saves time and effort because it can dictate which playbooks are in use; streamlining any future edits of the machines. 
+A Load Balancer was used to increase utility and functionality. This setup uses the filebeat-config.yml configuration file that was added to the ansible playbook. This main file saves time and effort because it can dictate which playbooks are in use; streamlining any future edits of the machines. 
 
 
 The playbook implements the following tasks:
@@ -62,10 +62,6 @@ The playbook implements the following tasks:
 - Install ELK Server
 - Install Filebeat
 - Install Metricbeat
-
-The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
-
-
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
